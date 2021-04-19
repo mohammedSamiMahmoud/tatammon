@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tatmon</string>
+    <string name="url"><a href="">url</a></string>
+    <string name="sign_up"><a href="">تسجيل حساب جديد</a></string>
+</resources>

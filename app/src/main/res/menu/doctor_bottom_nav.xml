@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:title="المقالات"
+        android:id="@+id/news"
+        android:icon="@drawable/news_48px" />
+    <item
+        android:title="الاستشارات"
+        android:id="@+id/coun"
+        android:icon="@drawable/counselor_48px" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="خروج"
+        android:icon="@drawable/exit_24px"/>
+</menu>
