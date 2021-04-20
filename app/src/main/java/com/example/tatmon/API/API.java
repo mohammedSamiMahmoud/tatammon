@@ -40,8 +40,10 @@ public interface API {
     Call<APIResponse.DefaultResponse> addArticle(
             //'doctor_id', 'link', 'name'
             @Field("doctor_id") String doctor_id,
-            @Field("link") String link,
-            @Field("name") String name
+            @Field("header") String header,
+            @Field("content") String content,
+            @Field("keywords") String keywords,
+            @Field("imgData") String imgData
     );
 
 
@@ -92,6 +94,9 @@ public interface API {
 
     @GET("doctor/get")
     Call<DoctorResponse> getDoctors();
+
+    @GET("doctor/get")
+    Call<DoctorResponse> getArticles();
 
     @FormUrlEncoded
     @POST("consultant/add")

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
+import com.example.tatmon.Model.Article;
 import com.example.tatmon.Model.User;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class SharedPrefManager {
     private static SharedPrefManager mInstance;
     private static final String SHARED_PREF_NAME = "my_shared_pref";
     private Context mContext;
+    private Article article;
 
     private SharedPrefManager(Context mContext) {
         this.mContext = mContext;
@@ -24,6 +26,14 @@ public class SharedPrefManager {
             mInstance = new SharedPrefManager(mContext);
         }
         return mInstance;
+    }
+
+    public void setArticle(Article a) {
+        this.article = a;
+    }
+
+    public Article getArticle() {
+        return article;
     }
 
     public void saveUser(User user) {

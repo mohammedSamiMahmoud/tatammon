@@ -1,14 +1,19 @@
 package com.example.tatmon.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tatmon.API.DownloadImage;
+import com.example.tatmon.API.SharedPrefManager;
+import com.example.tatmon.Doctor.ArticleActivity;
 import com.example.tatmon.Model.Article;
 import com.example.tatmon.R;
 
@@ -34,9 +39,9 @@ public class DoctorArticlesAdapter extends RecyclerView.Adapter<DoctorArticlesAd
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         Article article = articles.get(position);
-        holder.header.setText(article.getHead());
-        holder.name.setText(article.getDoc_name());
-        holder.date.setText(article.getDate());
+        new DownloadImage(holder.image).execute(article.getImage());
+        holder.dName.setText(article.getDocName());
+        holder.header.setText(article.getHeader());
     }
 
     @Override
@@ -44,14 +49,26 @@ public class DoctorArticlesAdapter extends RecyclerView.Adapter<DoctorArticlesAd
         return articles.size();
     }
 
-    class ArticleViewHolder extends RecyclerView.ViewHolder {
-        TextView header, date, name;
+    class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView header, dName;
+        ImageView image;
 
         public ArticleViewHolder(@NonNull View view) {
             super(view);
-            header = view.findViewById(R.id.header);
-            date = view.findViewById(R.id.date);
-            name = view.findViewById(R.id.name);
+            itemView.setOnClickListener(this);
+            image = itemView.findViewById(R.id.imageView3);
+            header = itemView.findViewById(R.id.header);
+            dName = itemView.findViewById(R.id.dName);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Article a = articles.get(getAdapterPosition());
+            SharedPrefManager.getInstance(mContext)
+                    .setArticle(a);
+            Intent intent = new Intent(mContext, ArticleActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
         }
     }
 }

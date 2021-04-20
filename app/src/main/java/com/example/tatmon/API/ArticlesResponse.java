@@ -21,10 +21,6 @@ public class ArticlesResponse {
         return err;
     }
 
-    public void setErr(boolean err) {
-        this.err = err;
-    }
-
     public List<Article> getArticles() {
         return articles;
     }
