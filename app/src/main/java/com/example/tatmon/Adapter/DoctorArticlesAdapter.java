@@ -1,6 +1,7 @@
 package com.example.tatmon.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tatmon.API.DownloadImage;
 import com.example.tatmon.API.SharedPrefManager;
+import com.example.tatmon.Doctor.ArticleActivity;
 import com.example.tatmon.Model.Article;
 import com.example.tatmon.R;
 
@@ -64,6 +66,9 @@ public class DoctorArticlesAdapter extends RecyclerView.Adapter<DoctorArticlesAd
             Article a = articles.get(getAdapterPosition());
             SharedPrefManager.getInstance(mContext)
                     .setArticle(a);
+            Intent intent = new Intent(mContext, ArticleActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
         }
     }
 }
