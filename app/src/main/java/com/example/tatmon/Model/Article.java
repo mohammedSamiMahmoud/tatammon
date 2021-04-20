@@ -2,36 +2,70 @@ package com.example.tatmon.Model;
 
 public class Article {
 
-    String head,doc_name,date;
+    /**
+     *  "id" => $row['id'],
+     *                 "docName" => $row2['name'],
+     *                 "header" => $row['header'],
+     *                 "content" => $row['content'],
+     *                 "image" => "https://smarttracks.org/test/tat/API/src/routes/Aimages/" . $row['image'],
+     *                 "keyWords" => $row['keyWords']
+     * */
+    String id,docName,header,content,image,keyWords;
 
-
-    public Article(String head, String doc_name, String date) {
-        this.head = head;
-        this.doc_name = doc_name;
-        this.date = date;
+    public Article(String id, String docName, String header, String content, String image, String keyWords) {
+        this.id = id;
+        this.docName = docName;
+        this.header = header;
+        this.content = content;
+        this.image = image;
+        this.keyWords = keyWords;
     }
 
-    public String getHead() {
-        return head;
+    public String getId() {
+        return id;
     }
 
-    public void setHead(String head) {
-        this.head = head;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getDoc_name() {
-        return doc_name;
+    public String getDocName() {
+        return docName;
     }
 
-    public void setDoc_name(String doc_name) {
-        this.doc_name = doc_name;
+    public void setDocName(String docName) {
+        this.docName = docName;
     }
 
-    public String getDate() {
-        return date;
+    public String getHeader() {
+        return header;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(String keyWords) {
+        this.keyWords = keyWords;
     }
 }
