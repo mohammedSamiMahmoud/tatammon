@@ -118,7 +118,7 @@ public interface API {
 
     @FormUrlEncoded
     @POST("report/add")
-    Call<APIResponse.DefaultResponse> addR(
+    Call<APIResponse.DefaultResponse> addReport(
             @Field("patient_id") String p_id,
             @Field("report") String report
     );
@@ -131,8 +131,14 @@ public interface API {
     );
 
     @GET("doctor/{id}/rate/get")
-    Call<ResponseBody> getAvgRate(@Path("id") String d_id);
+    Call<DoctorRateResponse> getAvgRate(@Path("id") String d_id);
 
     @GET("patient/{id}/consultant/get")
     Call<P_CResponse> getPConsultant(@Path("id") String p_id);
+
+    @GET("/doctor/{id}/getAllPatient")
+    Call<PatientResponse> getDoctorPatient(@Path("id")String d_id);
+
+    @GET("patient/{id}/getAllReports")
+    Call<ReportResponse> getPatientReports(@Path("id") String p_id);
 }

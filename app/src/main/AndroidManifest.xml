@@ -15,7 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".Doctor.ArticleActivity"></activity>
+
+        <activity android:name=".fragments.PatientReportFragment"></activity>
+        <activity android:name=".PatientReport" />
+        <activity android:name=".fragments.DoctorPatientsFragment" />
         <activity
             android:name=".Patient.PatientSignUp"
             android:windowSoftInputMode="stateHidden" />

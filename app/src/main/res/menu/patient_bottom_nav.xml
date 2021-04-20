@@ -10,6 +10,10 @@
         android:title="الرئيسية"
         android:icon="@drawable/home_24px"/>
     <item
+        android:id="@+id/add_report"
+        android:title="اضافة تقرير"
+        android:icon="@drawable/report_file_24px"/>
+    <item
         android:id="@+id/logout"
         android:title="خروج"
         android:icon="@drawable/exit_24px"/>

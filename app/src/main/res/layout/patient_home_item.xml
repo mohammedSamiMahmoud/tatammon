@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     app:cardCornerRadius="15sp"
     android:layout_margin="15sp"
-    android:layout_height="130sp">
+    android:layout_height="200dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,25 +37,25 @@
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/doctorPhoto"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
 
         <TextView
             android:id="@+id/doctorSpecialization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="47dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="60dp"
             android:text="specialization"
             android:textColor="#000000"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.897"
+            app:layout_constraintHorizontal_bias="0.472"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/doctorName"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/doctorAddress"
+            app:layout_constraintVertical_bias="0.457" />
 
         <TextView
             android:id="@+id/doctorName"
@@ -66,11 +66,31 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.789"
+            app:layout_constraintHorizontal_bias="0.68"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.155" />
+            app:layout_constraintVertical_bias="0.092" />
 
+        <TextView
+            android:id="@+id/doctorStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doctor status"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/doctorRate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.984"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/doctorRate" />
+
+        <RatingBar
+            android:id="@+id/doctorRate"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorPhoto" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
