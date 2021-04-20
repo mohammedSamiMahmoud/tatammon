@@ -35,6 +35,14 @@ public class DoctorHome extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.main_frag, new DoctorConsultationFragment()).commit();
                         return  true;
+                        case R.id.chat:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_frag, new DoctorConsultationFragment()).commit();
+                        return  true;
+                    case R.id.news:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_frag, new DoctorArticlesFragment()).commit();
+                        return  true;
                     case R.id.logout:{
                         Intent intent = new Intent(DoctorHome.this, LogIn.class);
                         startActivity(intent);

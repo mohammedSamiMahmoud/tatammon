@@ -65,7 +65,7 @@ public class LogIn extends AppCompatActivity {
                                         Intent intent = new Intent(LogIn.this, PatientHome.class);
                                         startActivity(intent);
                                     } else {
-                                        Log.e("message else", response.message());
+                                        Log.e("message else", response.code()+response.message());
                                     }
                                 }
 

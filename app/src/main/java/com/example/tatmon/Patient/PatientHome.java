@@ -11,6 +11,7 @@ import com.example.tatmon.LogIn;
 import com.example.tatmon.R;
 import com.example.tatmon.fragments.PatientConsultantFragment;
 import com.example.tatmon.fragments.PatientHomeFragment;
+import com.example.tatmon.fragments.PatientReportFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class PatientHome extends AppCompatActivity {
@@ -35,6 +36,12 @@ public class PatientHome extends AppCompatActivity {
                     case R.id.consultant: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.patientFrame
                                 , new PatientConsultantFragment()).commit();
+                        return true;
+                    }
+
+                    case R.id.add_report: {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.patientFrame
+                                , new PatientReportFragment()).commit();
                         return true;
                     }
                     case R.id.logout:{

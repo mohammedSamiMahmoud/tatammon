@@ -120,7 +120,7 @@ public interface API {
     @POST("report/add")
     Call<APIResponse.DefaultResponse> addReport(
             @Field("patient_id") String p_id,
-            @Field("report") String report
+            @Field("content") String report
     );
 
     @FormUrlEncoded
@@ -135,6 +135,8 @@ public interface API {
 
     @GET("patient/{id}/consultant/get")
     Call<P_CResponse> getPConsultant(@Path("id") String p_id);
+
+
 
     @GET("/doctor/{id}/getAllPatient")
     Call<PatientResponse> getDoctorPatient(@Path("id")String d_id);

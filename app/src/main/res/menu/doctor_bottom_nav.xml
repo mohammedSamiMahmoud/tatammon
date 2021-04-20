@@ -6,10 +6,16 @@
         android:title="المقالات"
         android:id="@+id/news"
         android:icon="@drawable/news_48px" />
+
+    <item
+        android:id="@+id/chat"
+        android:title="المرضى"
+        android:icon="@drawable/physical_therapy_48px"/>
     <item
         android:title="الاستشارات"
         android:id="@+id/coun"
         android:icon="@drawable/counselor_48px" />
+
 
     <item
         android:id="@+id/logout"

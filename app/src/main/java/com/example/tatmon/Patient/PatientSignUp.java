@@ -26,6 +26,7 @@ import com.example.tatmon.API.RetrofitClient;
 import com.example.tatmon.Doctor.DoctorSignUp;
 import com.example.tatmon.R;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +36,7 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
     RadioButton yesDisease, noDisease, yesSurgery, noSurgery;
     ImageButton location;
     Spinner statusSpinner;
-    String status;
+    String status, sss;
     String[] s = {"قلب", "ضغط", "سكري", "امراض تنفيسة", "اخرى"};
     Button pcreate;
     double locationLat, locationLng;
@@ -146,6 +147,7 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
             public void onClick(View v) {
                 if (noSurgery.isChecked()) {
                     surgeryName.setVisibility(View.GONE);
+                    sss = "لا توجد عمليات سابقة!";
                 }
             }
         });
@@ -158,34 +160,48 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
         });
 
         //  getLocation();
+
         pcreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String ss = surgeryName.getText().toString() == null ||
+                        surgeryName.getText().toString() == "" ? "لا توجد عمليات جراحية" : surgeryName.getText().toString();
                 if (DataValidation())
-                    RetrofitClient.getInstance().getApi()
-                            .singupP(name.getText().toString()
-                                    , email.getText().toString()
-                                    , password.getText().toString()
-                                    , phone.getText().toString()
-                                    , cridetCardNum.getText().toString()
-                                    , locationLat + " " + locationLng, status, surgeryName.getText().toString())
-                            .enqueue(new Callback<APIResponse.DefaultResponse>() {
-                                @Override
-                                public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
-                                    if (response.code() == 201) {
-                                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT)
-                                                .show();
-                                        finish();
-                                    } else {
-                                        Log.e("Error", response.code() + " " + response.body());
-                                    }
+                    System.out.println(name.getText().toString() + "\n"
+                            + email.getText().toString() + "\n"
+                            + password.getText().toString() + "\n"
+                            + phone.getText().toString() + "\n"
+                            + cridetCardNum.getText().toString() + "\n"
+                            + locationLat + " " + locationLng + "\n"
+                            + status + "\n"
+                            + ss);
+                RetrofitClient.getInstance().getApi()
+                        .singupP(name.getText().toString()
+                                , email.getText().toString()
+                                , password.getText().toString()
+                                , phone.getText().toString()
+                                , cridetCardNum.getText().toString()
+                                , locationLat + " " + locationLng,
+                                status,
+                                ss)
+                        .enqueue(new Callback<APIResponse.DefaultResponse>() {
+                            @Override
+                            public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
+                                if (response.code() == 201) {
+                                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT)
+                                            .show();
+                                    finish();
+                                } else {
+                                    Log.e("Error", response.code() + " " + response.body());
                                 }
+                            }
 
-                                @Override
-                                public void onFailure(Call<APIResponse.DefaultResponse> call, Throwable t) {
-
-                                }
-                            });
+                            @Override
+                            public void onFailure(Call<APIResponse.DefaultResponse> call, Throwable t) {
+                                String s = t.getLocalizedMessage();
+                                Log.e("onFailure", s);
+                            }
+                        });
             }
         });
 
