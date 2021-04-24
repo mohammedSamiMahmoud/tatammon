@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +42,7 @@ public class AddArticle extends AppCompatActivity {
     View dialogView;
     ImageView back, articleImage;
     String word;
-    EditText wordE,header,content;
+    EditText wordE, header, content;
     Button addWordBtn;
     String wordObject;
     List<String> words;
@@ -54,14 +55,16 @@ public class AddArticle extends AppCompatActivity {
     Bitmap FixBitmap;
     Context mContext;
     MaterialButton post;
+    MaterialButton upLoadImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doctor_add_article);
         back = findViewById(R.id.back);
+        upLoadImage = findViewById(R.id.upLoadImage);
         articleImage = findViewById(R.id.articleImage);
-        articleImage.setOnClickListener(new View.OnClickListener() {
+        upLoadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 choosePhotoFromGallary();
@@ -76,6 +79,7 @@ public class AddArticle extends AppCompatActivity {
         });
         recyclerView = findViewById(R.id.recyclerView);
         words = new ArrayList<>();
+        mContext = getApplicationContext();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         builder = new AlertDialog.Builder(this);
@@ -98,7 +102,7 @@ public class AddArticle extends AppCompatActivity {
         dialog = builder.create();
         post = findViewById(R.id.post);
         wordObject = "";
-        header  = findViewById(R.id.header);
+        header = findViewById(R.id.header);
         content = findViewById(R.id.content);
         post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,18 +119,20 @@ public class AddArticle extends AppCompatActivity {
                                 content.getText().toString(),
                                 wordObject,
                                 ConvertImage
-                                )
+                        )
                         .enqueue(new Callback<APIResponse.DefaultResponse>() {
                             @Override
                             public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
-                                if(response.code() ==200){
+                                if (response.code() == 201) {
                                     Toast.makeText(AddArticle.this, "تم إضافة المقالة بنجاح!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Log.e("error", response.code() + " : " + response.message());
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<APIResponse.DefaultResponse> call, Throwable t) {
-
+                                Log.e("on Failure : ", t.fillInStackTrace() + " : " + t.getMessage());
                             }
                         });
             }
@@ -151,7 +157,7 @@ public class AddArticle extends AppCompatActivity {
                 Uri contentURI = data.getData();
                 System.out.println("Path: " + contentURI.getEncodedPath());
                 try {
-                    FixBitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), contentURI);
+                    FixBitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), contentURI);
                     FixBitmap = Bitmap.createScaledBitmap(FixBitmap, (int) (FixBitmap.getWidth() * 0.5),
                             (int) (FixBitmap.getHeight() * 0.5), true);
                     Toast.makeText(mContext, "Image Saved!", Toast.LENGTH_SHORT).show();

@@ -35,6 +35,7 @@ public class PatientReportAdapter extends RecyclerView.Adapter<PatientReportAdap
     @Override
     public void onBindViewHolder(@NonNull PatientReportHolder holder, int position) {
         Report report = reports.get(position);
+        System.out.print("Ireport url :"+report.getReport());
         new DownloadImage(holder.reportPhoto).execute(report.getReport());
     }
 

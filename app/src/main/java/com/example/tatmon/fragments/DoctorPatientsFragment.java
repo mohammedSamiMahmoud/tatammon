@@ -42,7 +42,7 @@ public class DoctorPatientsFragment extends Fragment {
 
         mView = inflater.inflate(R.layout.doctor_patients_fragment,
                 container,false);
-        doctorPatientRecycler = mView.findViewById(R.id.patientHomeFragmentRecycler);
+        doctorPatientRecycler = mView.findViewById(R.id.doctorPatientRecycler);
         doctorPatientRecycler.setHasFixedSize(true);
         doctorPatientRecycler.setLayoutManager(new LinearLayoutManager(mView.getContext()));
         patients = new ArrayList<>();

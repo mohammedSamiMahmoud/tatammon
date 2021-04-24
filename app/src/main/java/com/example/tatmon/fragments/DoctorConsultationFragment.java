@@ -1,6 +1,7 @@
 package com.example.tatmon.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class DoctorConsultationFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mView.getContext()));
         consultations = new ArrayList<>();
+        System.out.print("d_id : "+SharedPrefManager.getInstance(mView.getContext()).getUser().getId());
         RetrofitClient.getInstance()
                 .getApi()
                 .getConsultant(SharedPrefManager.getInstance(mView.getContext())
@@ -54,12 +56,14 @@ public class DoctorConsultationFragment extends Fragment {
                             consultations = response.body().getConsultations();
                             adapter = new DoctorConsultationAdapter(mView.getContext(), consultations);
                             recyclerView.setAdapter(adapter);
+                        } else {
+                            Log.e("Error", response.code() + "");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ConsultantResponse> call, Throwable t) {
-
+                        Log.e("onFailure", t.getMessage());
                     }
                 });
         add.setVisibility(View.GONE);

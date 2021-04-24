@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tatmon.API.DownloadImage;
-import com.example.tatmon.ChatActivity;
+import com.example.tatmon.Patient.ChatActivity;
 import com.example.tatmon.Model.P_C;
 import com.example.tatmon.R;
 

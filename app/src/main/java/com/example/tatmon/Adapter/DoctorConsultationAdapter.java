@@ -3,6 +3,7 @@ package com.example.tatmon.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class DoctorConsultationAdapter extends RecyclerView.Adapter<DoctorConsul
         Consultation consultation = consultations.get(position);
         holder.header.setText(consultation.getDate());
         holder.name.setText(consultation.getPatient_name());
+        holder.cStatus.setText(consultation.getStatus());
     }
 
     @Override
@@ -54,17 +56,19 @@ public class DoctorConsultationAdapter extends RecyclerView.Adapter<DoctorConsul
     }
 
     class ConsultationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView name, header;
+        TextView name, header,cStatus;
 
         public ConsultationViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             name = itemView.findViewById(R.id.name);
             header = itemView.findViewById(R.id.header);
+            cStatus = itemView.findViewById(R.id.cStatus);
         }
 
         @Override
         public void onClick(View v) {
+            if (!cStatus.getText().toString().equals("1"))
             new AlertDialog.Builder(mContext)
                     .setNegativeButton("رفض", new DialogInterface.OnClickListener() {
                         @Override
@@ -82,8 +86,9 @@ public class DoctorConsultationAdapter extends RecyclerView.Adapter<DoctorConsul
                                         @Override
                                         public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
                                             if (response.code() == 201) {
-                                                Toast.makeText(mContext, response.body().getMessage(), Toast.LENGTH_SHORT)
+                                                Toast.makeText(mContext, "تم قبول الاستشارة", Toast.LENGTH_SHORT)
                                                         .show();
+                                                cStatus.setTextColor(Color.GREEN);
                                             } else {
                                                 Log.e("Error", response.code() + " " + response.body());
                                             }

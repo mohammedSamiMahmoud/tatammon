@@ -67,7 +67,7 @@ public class PatientReportFragment extends Fragment {
                             @Override
                             public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
                                 if (response.code() == 201) {
-                                    Toast.makeText(view.getContext(), response.message()
+                                    Toast.makeText(view.getContext(), "تم اضافة التقرير"
                                             , Toast.LENGTH_SHORT).show();
                                 } else {
                                     Log.e("error", response.code() + "");
@@ -100,11 +100,11 @@ public class PatientReportFragment extends Fragment {
                     FixBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), contentURI);
                     FixBitmap = Bitmap.createScaledBitmap(FixBitmap, (int) (FixBitmap.getWidth() * 0.5),
                             (int) (FixBitmap.getHeight() * 0.5), true);
-                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "تم تحميل الصورة بنجاح!", Toast.LENGTH_SHORT).show();
                     reportPhoto.setImageBitmap(FixBitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "عذرا لقد حدث خطأ ،حاول لاحقا!", Toast.LENGTH_SHORT).show();
                 }
             }
 

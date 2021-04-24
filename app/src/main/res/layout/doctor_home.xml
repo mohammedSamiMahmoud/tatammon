@@ -6,6 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".Doctor.DoctorHome">
 
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="متاح"
+            android:textSize="20dp" />
+
+        <RadioButton
+            android:id="@+id/off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="غير متاح"
+            android:textSize="20dp" />
+
+        <RadioButton
+            android:id="@+id/hasPatient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="مشغول"
+            android:textSize="20dp" />
+
+
+    </RadioGroup>
+
+
+
     <FrameLayout
         android:id="@+id/main_frag"
         android:layout_width="match_parent"
@@ -14,8 +51,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.111" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"

@@ -13,6 +13,7 @@ import com.example.tatmon.Adapter.DoctorWordAdapter;
 import com.example.tatmon.Model.Article;
 import com.example.tatmon.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,12 +29,15 @@ public class ArticleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
+        getSupportActionBar().setTitle("مقالاتي");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Article a = SharedPrefManager.getInstance(ArticleActivity.this)
                 .getArticle();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(ArticleActivity.this));
         String[] wordS = a.getKeyWords().split(" ");
+        words = new ArrayList<>();
         Collections.addAll(words, wordS);
         adapter = new DoctorWordAdapter(getApplicationContext(), words);
         recyclerView.setAdapter(adapter);
@@ -46,5 +50,16 @@ public class ArticleActivity extends AppCompatActivity {
         dName.setText(a.getDocName());
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

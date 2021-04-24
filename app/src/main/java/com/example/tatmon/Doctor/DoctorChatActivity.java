@@ -1,4 +1,4 @@
-package com.example.tatmon;
+package com.example.tatmon.Doctor;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,15 +24,14 @@ import com.example.tatmon.API.ChatResponse;
 import com.example.tatmon.API.RetrofitClient;
 import com.example.tatmon.API.SharedPrefManager;
 import com.example.tatmon.Adapter.MessageListAdapter;
-import com.example.tatmon.Model.Chat;
-
-import java.io.IOException;
+import com.example.tatmon.Patient.PatientReport;
+import com.example.tatmon.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChatActivity extends AppCompatActivity {
+public class DoctorChatActivity extends AppCompatActivity {
 
     private RecyclerView mMessageRecycler;
     private MessageListAdapter adapter;
@@ -52,19 +51,21 @@ public class ChatActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         addRate = findViewById(R.id.addRate);
         showReport = findViewById(R.id.showReport);
-
+        addRate.setVisibility(View.GONE);
         addRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShowDialog();
             }
         });
+System.out.println("P_Name: "+getIntent().getStringExtra("p_name"));
+        name.setText(getIntent().getStringExtra("p_name"));
 
         showReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChatActivity.this, PatientReport.class);
-                intent.putExtra("p_id", userId1);
+                Intent intent = new Intent(DoctorChatActivity.this, PatientReport.class);
+                intent.putExtra("p_id", userId2);
                 startActivity(intent);
             }
         });
@@ -101,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
                         });
             }
         });
-        userId1 = SharedPrefManager.getInstance(ChatActivity.this)
+        userId1 = SharedPrefManager.getInstance(DoctorChatActivity.this)
                 .getUser().getId();
         userId2 = getIntent().getStringExtra("userId2");
         System.out.println("id1: " + userId1);
@@ -118,12 +119,12 @@ public class ChatActivity extends AppCompatActivity {
         try {
             RetrofitClient.getInstance()
                     .getApi()
-                    .getAllMessages(userId1, userId2)
+                    .getAllMessages(userId2, userId1)
                     .enqueue(new Callback<ChatResponse>() {
                         @Override
                         public void onResponse(Call<ChatResponse> call, Response<ChatResponse> response) {
                             if (response.code() == 200) {
-                                adapter = new MessageListAdapter(ChatActivity.this, response.body().getChats());
+                                adapter = new MessageListAdapter(DoctorChatActivity.this, response.body().getChats());
                                 mMessageRecycler.setAdapter(adapter);
                             } else {
                                 Log.e("Error", "Code: " + response.code() + "\n body: " + response.errorBody());
@@ -159,7 +160,7 @@ public class ChatActivity extends AppCompatActivity {
                                     public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
                                         if (response.code() == 201) {
                                             Toast.makeText(getApplicationContext()
-                                                    , response.message(), Toast.LENGTH_SHORT).show();
+                                                    , "تم التقييم", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Log.e("error", response.code() + "");
                                         }
@@ -182,7 +183,7 @@ public class ChatActivity extends AppCompatActivity {
                                     public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
                                         if (response.code() == 201) {
                                             Toast.makeText(getApplicationContext()
-                                                    , response.message(), Toast.LENGTH_SHORT).show();
+                                                    , "تم التقييم", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Log.e("error", response.code() + "");
                                         }

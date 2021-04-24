@@ -3,6 +3,7 @@ package com.example.tatmon.Patient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,13 +27,19 @@ import com.example.tatmon.API.APIResponse;
 import com.example.tatmon.API.RetrofitClient;
 import com.example.tatmon.Doctor.DoctorSignUp;
 import com.example.tatmon.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PatientSignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener, LocationListener {
+public class PatientSignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     EditText name, email, password, phone, cridetCardNum, surgeryName;
     RadioButton yesDisease, noDisease, yesSurgery, noSurgery;
     ImageButton location;
@@ -39,54 +47,14 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
     String status, sss;
     String[] s = {"قلب", "ضغط", "سكري", "امراض تنفيسة", "اخرى"};
     Button pcreate;
-    double locationLat, locationLng;
+
     private static final int PICK_Loc = 1;
 
-    @Override
-    public void onLocationChanged(Location location) {
+    MapView mapView;
+    GoogleMap map;
+    Dialog mapDialog;
+    Double lat, lan;
 
-        locationLat = location.getLatitude();
-        locationLng = location.getLongitude();
-        System.out.println("Lat: " + locationLat + "\n" + "lan: " + locationLng);
-    }
-
-    public void getLocation() {
-
-        try {
-
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            requestPermissions(new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION}, PICK_Loc);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
-
-        } catch (SecurityException e) {
-
-            e.printStackTrace();
-
-        }
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,10 +120,46 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
+
+        final Dialog mapDialog = new Dialog(PatientSignUp.this);
+        mapDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mapDialog.setContentView(R.layout.map_dialog);
+        mapView = mapDialog.findViewById(R.id.map);
+
+
+        mapView.onCreate(mapDialog.onSaveInstanceState());
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+                lat = 21.54238;
+                lan = 39.19797;
+                LatLng jeddah = new LatLng(lat, lan);
+                map.addMarker(new MarkerOptions()
+                        .position(jeddah)
+                        .title("Jeddah"));
+                map.moveCamera(CameraUpdateFactory.newLatLng(jeddah));
+                map.animateCamera(CameraUpdateFactory.zoomTo(10.0f));
+                map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng latLng) {
+                        map.clear();
+                        lat = latLng.latitude;
+                        lan = latLng.longitude;
+                        System.out.print(lat + " ******  " + lan);
+                        map.addMarker(new MarkerOptions()
+                                .position(latLng)
+                        );
+                        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    }
+                });
+            }
+        });
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getLocation();
+                mapDialog.show();
+                mapView.onResume();
             }
         });
 
@@ -172,7 +176,7 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
                             + password.getText().toString() + "\n"
                             + phone.getText().toString() + "\n"
                             + cridetCardNum.getText().toString() + "\n"
-                            + locationLat + " " + locationLng + "\n"
+                            + lat + " " + lan + "\n"
                             + status + "\n"
                             + ss);
                 RetrofitClient.getInstance().getApi()
@@ -181,14 +185,14 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
                                 , password.getText().toString()
                                 , phone.getText().toString()
                                 , cridetCardNum.getText().toString()
-                                , locationLat + " " + locationLng,
+                                , lat + " " + lan,
                                 status,
                                 ss)
                         .enqueue(new Callback<APIResponse.DefaultResponse>() {
                             @Override
                             public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
                                 if (response.code() == 201) {
-                                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT)
+                                    Toast.makeText(getApplicationContext(),"تم انشاء الحساب", Toast.LENGTH_SHORT)
                                             .show();
                                     finish();
                                 } else {
@@ -294,4 +298,6 @@ public class PatientSignUp extends AppCompatActivity implements AdapterView.OnIt
         }
         return true;
     }
+
+
 }

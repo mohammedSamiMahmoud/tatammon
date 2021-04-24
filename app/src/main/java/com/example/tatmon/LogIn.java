@@ -85,6 +85,7 @@ public class LogIn extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<APIResponse.LogInResponse> call, Response<APIResponse.LogInResponse> response) {
                                     if (response.code() == 201) {
+                                        SharedPrefManager.getInstance(LogIn.this).saveUser(response.body().getUser());
                                         Intent intent = new Intent(LogIn.this, DoctorHome.class);
                                         startActivity(intent);
                                     }

@@ -92,7 +92,7 @@ public class DoctorSignUp extends AppCompatActivity implements AdapterView.OnIte
                             public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
                                 if (response.code() == 201) {
                                     Toast.makeText(getApplicationContext()
-                                            , response.message(), Toast.LENGTH_SHORT).show();
+                                            ,"تم انشاء الحساب", Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {
                                     Log.e("message", response.message());

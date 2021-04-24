@@ -42,13 +42,13 @@ public class DoctorArticlesFragment extends Fragment {
         mView = inflater.inflate(R.layout.doctor_recycler_view_fragment, container, false);
         add = mView.findViewById(R.id.add);
         recyclerView = mView.findViewById(R.id.recyclerView);
-
+        System.out.print("d_id : "+SharedPrefManager.getInstance(mView.getContext()).getUser().getId());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mView.getContext()));
         RetrofitClient
                 .getInstance()
                 .getApi()
-                .getDArticles(SharedPrefManager.getInstance(mView.getContext()).getUser().getId())
+                .getDArticles()
                 .enqueue(new Callback<ArticlesResponse>() {
                     @Override
                     public void onResponse(Call<ArticlesResponse> call, Response<ArticlesResponse> response) {

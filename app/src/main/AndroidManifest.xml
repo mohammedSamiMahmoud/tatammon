@@ -15,19 +15,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".fragments.DoctorChatFragment"></activity>
-        <activity android:name=".Doctor.ArticleActivity" />
-        <activity android:name=".fragments.PatientReportFragment" />
-        <activity android:name=".PatientReport" />
-        <activity android:name=".fragments.DoctorPatientsFragment" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBnDg61oWf4drEF5s0rElmuPt5Iu9TssYE" />
+
+
+        <activity
+            android:name=".Patient.PatientReport"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".Doctor.ArticleActivity"
+            android:windowSoftInputMode="stateHidden"
+            />
+
         <activity
             android:name=".Patient.PatientSignUp"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Doctor.DoctorSignUp"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            />
         <activity
-            android:name=".ChatActivity"
+            android:name=".Patient.ChatActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".Doctor.DoctorChatActivity"
+            android:theme="@style/NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Start"

@@ -1,4 +1,4 @@
-package com.example.tatmon;
+package com.example.tatmon.Patient;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import com.example.tatmon.API.ReportResponse;
 import com.example.tatmon.API.RetrofitClient;
 import com.example.tatmon.Adapter.PatientReportAdapter;
 import com.example.tatmon.Model.Report;
+import com.example.tatmon.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,10 @@ public class PatientReport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.patient_report);
+        getSupportActionBar().setTitle("تقارير المريض");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        p_id = new Intent().getStringExtra("p_id");
+        p_id = getIntent().getStringExtra("p_id");
         patientReportRecycler = findViewById(R.id.patientReportRecycler);
         patientReportRecycler.setHasFixedSize(true);
         patientReportRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -60,5 +63,17 @@ public class PatientReport extends AppCompatActivity {
                     }
                 });
 
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

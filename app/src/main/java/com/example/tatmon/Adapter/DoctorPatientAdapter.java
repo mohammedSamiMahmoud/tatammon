@@ -2,6 +2,7 @@ package com.example.tatmon.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.ImageDecoder;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,12 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tatmon.Doctor.DoctorChatActivity;
 import com.example.tatmon.Model.Patient;
 import com.example.tatmon.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -95,15 +98,27 @@ public class DoctorPatientAdapter extends RecyclerView.Adapter<DoctorPatientAdap
         return patients.size();
     }
 
-    public class DoctorPatientHolder extends RecyclerView.ViewHolder {
-        EditText patientName , patientEmail;
+     class DoctorPatientHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView patientName , patientEmail;
         ImageView patientLocation;
 
         public DoctorPatientHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             patientEmail = itemView.findViewById(R.id.patientEmail);
             patientName = itemView.findViewById(R.id.patientName);
             patientLocation = itemView.findViewById(R.id.patientLocation);
+        }
+
+        @Override
+        public void onClick(View v) {
+            System.out.println("clicked");
+            Intent intent = new Intent(context, DoctorChatActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("userId2",patients.get(getAdapterPosition()).getP_id());
+            intent.putExtra("p_name",patients.get(getAdapterPosition()).getP_name());
+            context.startActivity(intent);
+
         }
     }
 }

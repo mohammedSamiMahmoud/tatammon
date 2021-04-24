@@ -79,8 +79,8 @@ public interface API {
     @GET("doctor/{id}/consultant/get")
     Call<ConsultantResponse> getConsultant(@Path("id") String id);
 
-    @GET("doctor/{id}/articles")
-    Call<ArticlesResponse> getDArticles(@Path("id") String id);
+    @GET("article/get")
+    Call<ArticlesResponse> getDArticles();
 
     @GET("doctor/search/name/{query}")
     Call<DoctorResponse> searchByName(@Path("query") String q);
@@ -124,6 +124,13 @@ public interface API {
     );
 
     @FormUrlEncoded
+    @POST("doctor/status/update")
+    Call<APIResponse.DefaultResponse> changeStatus(
+            @Field("d_id") String d_id,
+            @Field("status") String status
+    );
+
+    @FormUrlEncoded
     @POST("rate/add")
     Call<APIResponse.DefaultResponse> rateAdd(
             @Field("value") String value,
@@ -138,9 +145,11 @@ public interface API {
 
 
 
-    @GET("/doctor/{id}/getAllPatient")
+    @GET("doctor/{id}/getAllPatient")
     Call<PatientResponse> getDoctorPatient(@Path("id")String d_id);
 
     @GET("patient/{id}/getAllReports")
     Call<ReportResponse> getPatientReports(@Path("id") String p_id);
+
+
 }

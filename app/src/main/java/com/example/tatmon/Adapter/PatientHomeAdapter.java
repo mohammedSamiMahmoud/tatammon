@@ -3,6 +3,7 @@ package com.example.tatmon.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class PatientHomeAdapter extends RecyclerView.Adapter<PatientHomeAdapter.
     Context mContext;
     List<Doctor> doctors;
     float rateValue;
+
     public PatientHomeAdapter(Context mContext, List<Doctor> doctors) {
         this.mContext = mContext;
         this.doctors = doctors;
@@ -51,30 +53,43 @@ public class PatientHomeAdapter extends RecyclerView.Adapter<PatientHomeAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PatientHomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final PatientHomeViewHolder holder, int position) {
 
-        Doctor doctor = doctors.get(position);
+        final Doctor doctor = doctors.get(position);
         holder.doctorName.setText(doctor.getName());
         holder.doctorAddress.setText(doctor.getAddress());
         holder.doctorSpecialization.setText(doctor.getSpecialization());
-        holder.status.setText(doctor.getState());
 
+        if (doctor.getState().equals("متاح")) {
+            holder.status.setText(doctor.getState());
+            holder.status.setTextColor(Color.GREEN);
+        }else if(doctor.getState().equals("غير متاح")){
+            holder.status.setText(doctor.getState());
+            holder.status.setTextColor(Color.RED);
+        }else {
+            holder.status.setText(doctor.getState());
+            holder.status.setTextColor(Color.YELLOW);
+        }
+        holder.rate.setIsIndicator(true);
         RetrofitClient.getInstance().getApi()
                 .getAvgRate(doctor.getId())
                 .enqueue(new Callback<DoctorRateResponse>() {
                     @Override
                     public void onResponse(Call<DoctorRateResponse> call, Response<DoctorRateResponse> response) {
-                        if (response.code() == 200)
+                        if (response.code() == 200) {
                             rateValue = Float.parseFloat(response.body().getRate());
+                            holder.rate.setRating(rateValue);
+                        } else
+                            Log.e("error", response.code() + " : " + response.message());
                     }
 
                     @Override
                     public void onFailure(Call<DoctorRateResponse> call, Throwable t) {
-
+                        Log.e("failure", t.getMessage() + " : " + t.getStackTrace());
                     }
                 });
 
-        holder.rate.setRating(rateValue);
+
         new DownloadImage(holder.doctorPhoto).execute(doctor.getPhoto());
 
     }
@@ -102,7 +117,7 @@ public class PatientHomeAdapter extends RecyclerView.Adapter<PatientHomeAdapter.
 
         @Override
         public void onClick(View v) {
-            if (status.equals("متاح")) {
+            if (doctors.get(getAdapterPosition()).getState().equals("متاح")) {
                 new AlertDialog.Builder(mContext)
                         .setMessage("هل انت متأكد من طلب الاستشارة؟")
                         .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
@@ -127,7 +142,7 @@ public class PatientHomeAdapter extends RecyclerView.Adapter<PatientHomeAdapter.
                                             @Override
                                             public void onResponse(Call<APIResponse.DefaultResponse> call, Response<APIResponse.DefaultResponse> response) {
                                                 if (response.code() == 201) {
-                                                    Toast.makeText(mContext, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(mContext, "تم طلب الاستشارة،بانتظار الموافقة", Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     Log.e("Error", response.code() + " " + response.body());
                                                 }
